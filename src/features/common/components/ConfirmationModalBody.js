@@ -3,6 +3,7 @@ import axios from 'axios'
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUtil'
 import { deleteLead } from '../../leads/leadSlice'
 import { showNotification } from '../headerSlice'
+import { deleteOrganization } from '../../transactions/ProvOrganizationSlice'
 
 function ConfirmationModalBody({ extraObject, closeModal }) {
 
@@ -19,13 +20,35 @@ function ConfirmationModalBody({ extraObject, closeModal }) {
         }
         else if (type === CONFIRMATION_MODAL_CLOSE_TYPES.ORGANIZATION_DELETE) {
 
+            // dispatch(deleteOrganization(index))
+            try {
+                // Gọi hàm xóa tổ chức ở đây (ví dụ: dispatch(deleteOrganization(orgID)))
+                await dispatch(deleteOrganization(index));
+
+                // Nếu tác vụ xóa tổ chức không ném lỗi, tức là xóa thành công
+                dispatch(
+                    showNotification({
+                        message: 'Xóa tổ chức thành công',
+                        status: 1,
+                    })
+                );
+            } catch (error) {
+                // Xử lý khi xóa tổ chức không thành công
+                console.error('Lỗi khi xóa tổ chức:', error);
+                dispatch(
+                    showNotification({
+                        message: 'Xóa tổ chức không thành công',
+                        status: 0,
+                    })
+                );
+            }
         }
         closeModal()
     }
 
     return (
         <>
-            <p className=' text-xl mt-8 text-center'>
+            <p className=' text-xl mt-6 text-center'>
                 {message}
             </p>
 

@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import organizationApi from "../../api/OrganizationAPI";
+import { showNotification } from "../common/headerSlice";
 
 
 
-export const getProvOrganizationAPI = createAsyncThunk('/prov/contents', async () => {
+export const getOrganization = createAsyncThunk('/prov/contents', async () => {
     try {
         const response = await organizationApi.getOrganizationByType('tinh');
-        console.log('Dữ liệu từ API:', response.data);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Lỗi trong quá trình lấy dữ liệu từ API:', error);
@@ -18,7 +19,7 @@ export const createOrganization = createAsyncThunk('/prov/create', async (value)
     try {
         const response = await organizationApi.createOrganization(value);
         console.log(response);
-        return value;
+        return response.data;
     }
     catch (error) {
         console.log("Có lỗi xảy ra", error);
@@ -26,11 +27,15 @@ export const createOrganization = createAsyncThunk('/prov/create', async (value)
     }
 })
 
-export const deleteOrganization = createAsyncThunk('/prov/delete', async (key) => {
+export const deleteOrganization = createAsyncThunk('/prov/delete', async (key, thunkAPI) => {
     try {
-        const
+        const response = await organizationApi.deleteOrganization(key);
+        console.log("Xóa hội thành công");
+        return key;
     } catch (error) {
-
+        thunkAPI.dispatch(showNotification({ message: "Xóa hội không thành công", status: 0 }))
+        console.log("Có lỗi xảy ra khi xóa hội", error);
+        throw error;
     }
 })
 
@@ -42,24 +47,19 @@ export const ProvOrganizationSlice = createSlice({
     },
     reducers: {
 
-        addNewProvOrganization: (state, action) => {
-            let { newProvOrganization } = action.payload;
-            state.provs = [...state.provs, newProvOrganization];
-        },
     },
     extraReducers: {
-        [getProvOrganizationAPI.pending]: state => {
+        [getOrganization.pending]: state => {
             state.isLoading = true
         },
-        [getProvOrganizationAPI.fulfilled]: (state, action) => {
+        [getOrganization.fulfilled]: (state, action) => {
             state.provs = action.payload
             state.isLoading = false
         },
 
 
-        [getProvOrganizationAPI.rejected]: state => {
+        [getOrganization.rejected]: state => {
             state.isLoading = false;
-            console.log('loi roi');
         },
 
 
@@ -72,7 +72,21 @@ export const ProvOrganizationSlice = createSlice({
         },
         [createOrganization.rejected]: state => {
             state.isLoading = false
-        }
+        },
+
+
+        [deleteOrganization.pending]: state => {
+            state.isLoading = true;
+        },
+        [deleteOrganization.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.provs = state.provs.filter(org => org.orgID !== action.payload)
+
+        },
+        [deleteOrganization.rejected]: state => {
+            state.isLoading = false;
+            console.log("Nhay vo rejeject r");
+        },
     }
 
 }

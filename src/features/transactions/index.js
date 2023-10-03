@@ -10,7 +10,7 @@ import SearchBar from "../../components/Input/SearchBar"
 import organizationApi from "../../api/OrganizationAPI"
 import { data } from "autoprefixer"
 import { openModal } from "../common/modalSlice"
-import { getProvOrganizationAPI } from "./ProvOrganizationSlice"
+import { getOrganization } from "./ProvOrganizationSlice"
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 
@@ -74,9 +74,8 @@ function Transactions() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getProvOrganizationAPI())
+        dispatch(getOrganization())
     }, []);
-
 
     if (isLoading) { document.body.classList.add('loading-indicator') }
     else { document.body.classList.remove('loading-indicator') }
@@ -84,7 +83,7 @@ function Transactions() {
     const deleteCurrentOrganization = (index) => {
         dispatch(openModal({
             title: "Xác nhận", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-            extraObject: { message: `Xóa hội này cũng sẽ xóa các hội trực thuộc nó, bạn có muốn xóa không ?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.ORGANIZATION_DELETE, index }
+            extraObject: { message: `Xóa hội này cũng sẽ xóa các hội trực thuộc nó, bạn có muốn xóa không ?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.ORGANIZATION_DELETE, index: index }
         }))
     }
 

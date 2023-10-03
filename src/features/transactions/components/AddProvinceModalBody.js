@@ -9,7 +9,7 @@ import organizationApi from '../../../api/OrganizationAPI';
 import { createOrganization } from '../ProvOrganizationSlice';
 
 const INITIAL_PROVINCE_OBJ = {
-    name: ""
+    name: ''
 }
 const AddProvinceModalBody = ({ closeModal }) => {
     const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const AddProvinceModalBody = ({ closeModal }) => {
     }
     return (
         <>
-            <InputText type="text" defaultValue={provinceObj.first_name} updateType="name" containerStyle="mt-4" labelTitle="Tên tỉnh" updateFormValue={updateFormValue} />
+            <InputText type="text" defaultValue={provinceObj.first_name} updateType="name" containerStyle="mt-4" value labelTitle="Tên tỉnh" updateFormValue={updateFormValue} />
             <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
             <div className="modal-action">
                 <button className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>

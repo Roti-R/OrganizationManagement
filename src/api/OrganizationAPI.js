@@ -7,7 +7,11 @@ const organizationApi = {
     },
     createOrganization(organizationData) {
         const url = '/Organization';
-        return axiosClient.post(url, organizationData)
+        return axiosClient.post(url, organizationData);
+    },
+    deleteOrganization(orgID) {
+        const url = '/Organization/' + orgID;
+        return axiosClient.delete(url, orgID);
     }
 
 
