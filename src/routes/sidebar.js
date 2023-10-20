@@ -18,6 +18,7 @@ import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
 import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
 import KeyIcon from '@heroicons/react/24/outline/KeyIcon'
 import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon'
+import MapIcon from '@heroicons/react/24/outline/MapIcon'
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
@@ -38,6 +39,16 @@ const routes = [
     path: '/app/transactions', // url
     icon: <CurrencyDollarIcon className={iconClasses} />, // icon component
     name: 'Đơn vị tỉnh', // name that appear in Sidebar
+  },
+  {
+    path: '/app/district',
+    icon: <MapIcon className={iconClasses} />,
+    name: 'Đơn vị huyện',
+  },
+  {
+    path: '/app/commune',
+    icon: <MapIcon className={iconClasses} />,
+    name: 'Đơn vị xã',
   },
   {
     path: '/app/charts', // url

@@ -4,10 +4,9 @@ import { showNotification } from "../common/headerSlice";
 
 
 
-export const getOrganization = createAsyncThunk('/prov/contents', async () => {
+export const getOrganization = createAsyncThunk('/org/contents', async () => {
     try {
-        const response = await organizationApi.getOrganizationByType('tinh');
-        console.log(response.data);
+        const response = await organizationApi.getAllOrganization();
         return response.data;
     } catch (error) {
         console.error('Lỗi trong quá trình lấy dữ liệu từ API:', error);
@@ -15,10 +14,9 @@ export const getOrganization = createAsyncThunk('/prov/contents', async () => {
     }
 })
 
-export const createOrganization = createAsyncThunk('/prov/create', async (value) => {
+export const createOrganization = createAsyncThunk('/org/create', async (value) => {
     try {
         const response = await organizationApi.createOrganization(value);
-        console.log(response);
         return response.data;
     }
     catch (error) {
@@ -27,7 +25,7 @@ export const createOrganization = createAsyncThunk('/prov/create', async (value)
     }
 })
 
-export const deleteOrganization = createAsyncThunk('/prov/delete', async (key, thunkAPI) => {
+export const deleteOrganization = createAsyncThunk('/org/delete', async (key, thunkAPI) => {
     try {
         const response = await organizationApi.deleteOrganization(key);
         console.log("Xóa hội thành công");
@@ -39,11 +37,11 @@ export const deleteOrganization = createAsyncThunk('/prov/delete', async (key, t
     }
 })
 
-export const ProvOrganizationSlice = createSlice({
-    name: 'provs',
+export const OrganizationSlice = createSlice({
+    name: 'org',
     initialState: {
         isLoading: false,
-        provs: []
+        orgs: []
     },
     reducers: {
 
@@ -53,8 +51,10 @@ export const ProvOrganizationSlice = createSlice({
             state.isLoading = true
         },
         [getOrganization.fulfilled]: (state, action) => {
-            state.provs = action.payload
+            state.orgs = action.payload
             state.isLoading = false
+            console.log("Đã chạy vào lấy dữ liệu");
+
         },
 
 
@@ -68,7 +68,7 @@ export const ProvOrganizationSlice = createSlice({
         },
         [createOrganization.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.provs = [...state.provs, action.payload];
+            state.orgs = [...state.orgs, action.payload];
         },
         [createOrganization.rejected]: state => {
             state.isLoading = false
@@ -80,7 +80,7 @@ export const ProvOrganizationSlice = createSlice({
         },
         [deleteOrganization.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.provs = state.provs.filter(org => org.orgID !== action.payload)
+            state.orgs = state.orgs.filter(org => org.orgID !== action.payload)
 
         },
         [deleteOrganization.rejected]: state => {
@@ -93,5 +93,5 @@ export const ProvOrganizationSlice = createSlice({
 
 )
 
-export const { addNewProvOrganization } = ProvOrganizationSlice.actions;
-export default ProvOrganizationSlice.reducer
+export const { addNewProvOrganization } = OrganizationSlice.actions;
+export default OrganizationSlice.reducer

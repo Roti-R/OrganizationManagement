@@ -3,7 +3,7 @@ import axios from 'axios'
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUtil'
 import { deleteLead } from '../../leads/leadSlice'
 import { showNotification } from '../headerSlice'
-import { deleteOrganization } from '../../transactions/ProvOrganizationSlice'
+import { deleteOrganization } from '../../transactions/OrganizationSlice'
 
 function ConfirmationModalBody({ extraObject, closeModal }) {
 

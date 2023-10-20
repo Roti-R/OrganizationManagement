@@ -17,7 +17,8 @@ const ProfileSettings = lazy(() => import('../pages/protected/ProfileSettings'))
 const GettingStarted = lazy(() => import('../pages/GettingStarted'))
 const DocFeatures = lazy(() => import('../pages/DocFeatures'))
 const DocComponents = lazy(() => import('../pages/DocComponents'))
-
+const District = lazy(() => import('../pages/protected/District'))
+const Commune = lazy(() => import('../pages/protected/Commune'))
 
 const routes = [
   {
@@ -43,6 +44,14 @@ const routes = [
   {
     path: '/transactions',
     component: Transactions,
+  },
+  {
+    path: '/district',
+    component: District,
+  },
+  {
+    path: '/commune',
+    component: Commune,
   },
   {
     path: '/settings-profile',

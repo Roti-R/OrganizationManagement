@@ -10,75 +10,61 @@ import SearchBar from "../../components/Input/SearchBar"
 import organizationApi from "../../api/OrganizationAPI"
 import { data } from "autoprefixer"
 import { openModal } from "../common/modalSlice"
-import { getOrganization } from "./ProvOrganizationSlice"
+import { getOrganization } from "./OrganizationSlice"
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 
 
 const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
 
-    const [filterParam, setFilterParam] = useState("")
-    const [searchText, setSearchText] = useState("")
-    const locationFilters = ["Paris", "London", "Canada", "Peru", "Tokyo"]
 
+    const [searchText, setSearchText] = useState("");
     const dispatch = useDispatch();
+    console.log("Day la TopSideButton");
+
+    const handleSearchChange = (searchText) => {
+        setSearchText(searchText)
+        applySearch(searchText)
+    }
 
     const AddNewProvinceModal = () => {
         dispatch(openModal({ title: 'Thêm đơn vị tỉnh', bodyType: MODAL_BODY_TYPES.PROVINCE_ADD_NEW }))
     }
-    const showFiltersAndApply = (params) => {
-        applyFilter(params)
-        setFilterParam(params)
-    }
 
-    const removeAppliedFilter = () => {
-        removeFilter()
-        setFilterParam("")
-        setSearchText("")
-    }
 
-    useEffect(() => {
-        if (searchText == "") {
-            removeAppliedFilter()
-        } else {
-            applySearch(searchText)
-        }
-    }, [searchText])
 
 
     return (
         <div className="inline-block float-right">
             <button className="btn px-6 btn-sm normal-case btn-primary mr-5 rounded-full" onClick={() => AddNewProvinceModal()}>Thêm đơn vị tỉnh</button>
-            <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText} />
-            {filterParam != "" && <button onClick={() => removeAppliedFilter()} className="btn btn-xs mr-2 btn-active btn-ghost normal-case">{filterParam}<XMarkIcon className="w-4 ml-2" /></button>}
-            <div className="dropdown dropdown-bottom dropdown-end">
-                <label tabIndex={0} className="btn btn-sm btn-outline"><FunnelIcon className="w-5 mr-2" />Filter</label>
-                <ul tabIndex={0} className="dropdown-content menu p-2 text-sm shadow bg-base-100 rounded-box w-52">
-                    {
-                        locationFilters.map((l, k) => {
-                            return <li key={k}><a onClick={() => showFiltersAndApply(l)}>{l}</a></li>
-                        })
-                    }
-                    <div className="divider mt-0 mb-0"></div>
-                    <li><a onClick={() => removeAppliedFilter()}>Remove Filter</a></li>
-                </ul>
-            </div>
+            <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={handleSearchChange} />
         </div>
     )
+
+
 }
 
 
-function Transactions() {
 
-    const { provs, isLoading } = useSelector(state => state.prov)
+
+function Transactions() {
     const dispatch = useDispatch();
+    const { orgs, isLoading } = useSelector(state => state.org)
+    const provs = orgs.filter(org => org.type === 'tinh');
+    const [filteredProvs, setFilteredProvs] = useState(provs);
+    const [loading, setLoading] = useState(true);
+
+
+    console.log("Day la transaction");
+
 
     useEffect(() => {
-        dispatch(getOrganization())
-    }, []);
-
-    if (isLoading) { document.body.classList.add('loading-indicator') }
-    else { document.body.classList.remove('loading-indicator') }
+        dispatch(getOrganization()).then(
+            setFilteredProvs([...provs])
+        )
+    }, []
+    )
+    isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')
 
     const deleteCurrentOrganization = (index) => {
         dispatch(openModal({
@@ -87,30 +73,17 @@ function Transactions() {
         }))
     }
 
-    const doNothing = () => {
-
+    const applySearch = (searchText) => {
+        console.log("Đã chạy vào hàm apply Search");
+        console.log("Chuỗi searh là : " + searchText);
+        const filteredSearch = provs.filter((t) => { return searchText === "" || t.name.toLowerCase().includes(searchText.toLowerCase()) });
+        setFilteredProvs(filteredSearch);
     }
-    // const removeFilter = () => {
-    //     setTrans(RECENT_TRANSACTIONS)
-    // }
-
-    // const applyFilter = (params) => {
-    //     let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => { return t.location == params })
-    //     setTrans(filteredTransactions)
-    // }
-
-    // // Search according to name
-    // const applySearch = (value) => {
-    //     let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => { return t.email.toLowerCase().includes(value.toLowerCase()) || t.email.toLowerCase().includes(value.toLowerCase()) })
-    //     setTrans(filteredTransactions)
-    // }
-
-
 
     return (
         <>
 
-            <TitleCard title="Danh sách đơn vị tỉnh" topMargin="mt-2" TopSideButtons={<TopSideButtons removeFilter={doNothing} applyFilter={doNothing} applySearch={doNothing} />}>
+            <TitleCard title="Danh sách đơn vị tỉnh" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
                 {/* Team Member list in table format loaded constant */}
                 <div className="overflow-x-auto w-full">
@@ -124,7 +97,7 @@ function Transactions() {
                         </thead>
                         <tbody>
                             {
-                                provs.map((l, k) => {
+                                filteredProvs.map((l, k) => {
                                     return (
                                         <tr key={l.orgID}>
                                             <td className="text-center">

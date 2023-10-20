@@ -5,6 +5,7 @@ import { closeModal } from '../features/common/modalSlice'
 import AddLeadModalBody from '../features/leads/components/AddLeadModalBody'
 import ConfirmationModalBody from '../features/common/components/ConfirmationModalBody'
 import AddProvinceModalBody from '../features/transactions/components/AddProvinceModalBody'
+import AddDistrictModalBody from '../features/district/components/AddDistrictModalBody'
 
 
 function ModalLayout() {
@@ -36,6 +37,7 @@ function ModalLayout() {
 
                             [MODAL_BODY_TYPES.LEAD_ADD_NEW]: <AddLeadModalBody closeModal={close} extraObject={extraObject} />,
                             [MODAL_BODY_TYPES.PROVINCE_ADD_NEW]: <AddProvinceModalBody closeModal={close} extraObject={extraObject} />,
+                            [MODAL_BODY_TYPES.DISTRICT_ADD_NEW]: <AddDistrictModalBody closeModal={close} extraObject={extraObject} />,
                             [MODAL_BODY_TYPES.CONFIRMATION]: <ConfirmationModalBody extraObject={extraObject} closeModal={close} />,
                             [MODAL_BODY_TYPES.DEFAULT]: <div></div>
                         }[bodyType]

@@ -5,6 +5,7 @@ module.exports = Object.freeze({
         LEAD_ADD_NEW: "LEAD_ADD_NEW",
         CONFIRMATION: "CONFIRMATION",
         PROVINCE_ADD_NEW: "PROVINCE_ADD_NEW",
+        DISTRICT_ADD_NEW: "DISTRICT_ADD_NEW",
         DEFAULT: "",
 
     },

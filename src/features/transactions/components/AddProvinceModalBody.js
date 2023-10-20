@@ -6,7 +6,7 @@ import { closeModal } from '../../common/modalSlice';
 import InputText from '../../../components/Input/InputText';
 import ErrorText from '../../../components/Typography/ErrorText';
 import organizationApi from '../../../api/OrganizationAPI';
-import { createOrganization } from '../ProvOrganizationSlice';
+import { createOrganization } from '../OrganizationSlice';
 
 const INITIAL_PROVINCE_OBJ = {
     name: ''
