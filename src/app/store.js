@@ -5,6 +5,7 @@ import rightDrawerSlice from '../features/common/rightDrawerSlice'
 import leadsSlice from '../features/leads/leadSlice'
 import ProvOrganizationSlice from '../features/transactions/OrganizationSlice'
 import SelectedProvSlice from '../features/district/SelectedProvSlice'
+import SelectedDistrictSlice from '../features/commune/SelectedDistrictSlice'
 
 const combinedReducer = {
   header: headerSlice,
@@ -12,7 +13,8 @@ const combinedReducer = {
   modal: modalSlice,
   lead: leadsSlice,
   org: ProvOrganizationSlice,
-  selectedProv: SelectedProvSlice
+  selectedProv: SelectedProvSlice,
+  selectedDistrict: SelectedDistrictSlice
 }
 
 export default configureStore({

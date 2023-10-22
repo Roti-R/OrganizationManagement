@@ -6,6 +6,7 @@ module.exports = Object.freeze({
         CONFIRMATION: "CONFIRMATION",
         PROVINCE_ADD_NEW: "PROVINCE_ADD_NEW",
         DISTRICT_ADD_NEW: "DISTRICT_ADD_NEW",
+        COMMUNE_ADD_NEW : "COMMUNE_ADD_NEW",
         DEFAULT: "",
 
     },

@@ -51,6 +51,11 @@ const routes = [
     name: 'Đơn vị xã',
   },
   {
+    path: '/app/members',
+    icon: <UsersIcon className={iconClasses}/>,
+    name: 'Thành viên hội'
+  }
+  ,{
     path: '/app/charts', // url
     icon: <ChartBarIcon className={iconClasses} />, // icon component
     name: 'Analytics', // name that appear in Sidebar

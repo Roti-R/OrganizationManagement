@@ -15,7 +15,7 @@ import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 
 
-const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
+const TopSideButtons = ({ applySearch }) => {
 
 
     const [searchText, setSearchText] = useState("");
@@ -51,19 +51,20 @@ function Transactions() {
     const dispatch = useDispatch();
     const { orgs, isLoading } = useSelector(state => state.org)
     const provs = orgs.filter(org => org.type === 'tinh');
-    const [filteredProvs, setFilteredProvs] = useState(provs);
-    const [loading, setLoading] = useState(true);
-
-
+    const [filteredProvs, setFilteredProvs] = useState([]);
     console.log("Day la transaction");
+    console.log("provs ngoài effect : " + provs);
 
+
+    useEffect(  () => {
+        dispatch(getOrganization())
+        
+    }, [])
 
     useEffect(() => {
-        dispatch(getOrganization()).then(
-            setFilteredProvs([...provs])
-        )
-    }, []
-    )
+        setFilteredProvs(provs)
+    },[orgs])
+
     isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')
 
     const deleteCurrentOrganization = (index) => {
@@ -74,10 +75,8 @@ function Transactions() {
     }
 
     const applySearch = (searchText) => {
-        console.log("Đã chạy vào hàm apply Search");
-        console.log("Chuỗi searh là : " + searchText);
         const filteredSearch = provs.filter((t) => { return searchText === "" || t.name.toLowerCase().includes(searchText.toLowerCase()) });
-        setFilteredProvs(filteredSearch);
+        setFilteredProvs(filteredSearch)
     }
 
     return (

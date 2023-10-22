@@ -19,6 +19,7 @@ const DocFeatures = lazy(() => import('../pages/DocFeatures'))
 const DocComponents = lazy(() => import('../pages/DocComponents'))
 const District = lazy(() => import('../pages/protected/District'))
 const Commune = lazy(() => import('../pages/protected/Commune'))
+const Members = lazy(() => import('../pages/protected/Member'))
 
 const routes = [
   {
@@ -89,6 +90,10 @@ const routes = [
     path: '/blank',
     component: Blank,
   },
+  {
+    path: '/members',
+    component: Members
+  }
 ]
 
 export default routes

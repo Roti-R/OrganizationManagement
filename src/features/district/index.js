@@ -25,9 +25,6 @@ const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
     }, [])
 
 
-    useEffect(() => {
-        applySearch(searchText)
-    }, [searchText])
 
     const AddNewDistrictModal = () => {
         dispatch(openModal({ title: 'Thêm đơn vị huyện', bodyType: MODAL_BODY_TYPES.DISTRICT_ADD_NEW }))
@@ -64,12 +61,8 @@ const District = () => {
     const { selectedProvince } = useSelector(state => state.selectedProv)
     const { orgs, isLoading } = useSelector(state => state.org);
     const districtOrg = orgs.filter(org => org.parentID === selectedProvince)
-    const [searchText, setSearchText] = useState("");
     const [filterdSearchDistrictOrg, setFilterSearchDistrictOrg] = useState(districtOrg);
 
-    useEffect(() => {
-        applySearch(searchText)
-    }, [searchText, orgs])
 
     isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')
 
@@ -98,7 +91,7 @@ const District = () => {
                         </thead>
                         <tbody>
                             {
-                                filterdSearchDistrictOrg.map((l, k) => {
+                                districtOrg.map((l, k) => {
                                     return (
                                         <tr key={l.orgID}>
                                             <td className="text-center">
