@@ -12,8 +12,6 @@ function SelectBox(props) {
     const [value, setValue] = useState(defaultValue || (options.length > 0 ? options[0][nameKey] : '2222'))
 
     useEffect(() => {
-        console.log(labelTitle);
-        console.log(options);
         updateFormValue(value)
     }, [])
 

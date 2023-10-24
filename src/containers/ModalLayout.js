@@ -7,6 +7,7 @@ import ConfirmationModalBody from '../features/common/components/ConfirmationMod
 import AddProvinceModalBody from '../features/transactions/components/AddProvinceModalBody'
 import AddDistrictModalBody from '../features/district/components/AddDistrictModalBody'
 import AddCommuneModalBody from '../features/commune/components/AddCommuneModalBody'
+import AddMemberModalBody from '../features/members/components/addMemberModalBody'
 
 
 function ModalLayout() {
@@ -40,7 +41,8 @@ function ModalLayout() {
                             [MODAL_BODY_TYPES.PROVINCE_ADD_NEW]: <AddProvinceModalBody closeModal={close} extraObject={extraObject} />,
                             [MODAL_BODY_TYPES.DISTRICT_ADD_NEW]: <AddDistrictModalBody closeModal={close} extraObject={extraObject} />,
                             [MODAL_BODY_TYPES.CONFIRMATION]: <ConfirmationModalBody extraObject={extraObject} closeModal={close} />,
-                            [MODAL_BODY_TYPES.COMMUNE_ADD_NEW]: <AddCommuneModalBody extraObject={extraObject} closeModal={close}/>,
+                            [MODAL_BODY_TYPES.COMMUNE_ADD_NEW]: <AddCommuneModalBody extraObject={extraObject} closeModal={close} />,
+                            [MODAL_BODY_TYPES.MEMBER_ADD_NEW]: <AddMemberModalBody extraObject={extraObject} closeModal={close} />,
                             [MODAL_BODY_TYPES.DEFAULT]: <div></div>
                         }[bodyType]
                     }

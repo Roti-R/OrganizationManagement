@@ -6,6 +6,7 @@ import leadsSlice from '../features/leads/leadSlice'
 import ProvOrganizationSlice from '../features/transactions/OrganizationSlice'
 import SelectedProvSlice from '../features/district/SelectedProvSlice'
 import SelectedDistrictSlice from '../features/commune/SelectedDistrictSlice'
+import memberSlice from '../features/members/memberSlice'
 
 const combinedReducer = {
   header: headerSlice,
@@ -13,6 +14,7 @@ const combinedReducer = {
   modal: modalSlice,
   lead: leadsSlice,
   org: ProvOrganizationSlice,
+  member: memberSlice,
   selectedProv: SelectedProvSlice,
   selectedDistrict: SelectedDistrictSlice
 }
