@@ -37,6 +37,17 @@ export const deleteMember = createAsyncThunk('/member/delete', async (value, thu
     }
 })
 
+export const updateMember = createAsyncThunk('/member/update', async (value, thunkAPI) => {
+    try {
+        const response = await memberAPI.updateMember(value);
+        return response.data;
+    } catch (error) {
+        if (error.response.status === 422) {
+            return thunkAPI.rejectWithValue(error.response.data)
+        }
+        throw error;
+    }
+})
 export const memberSlice = createSlice({
     name: 'member',
     initialState: {
@@ -86,6 +97,21 @@ export const memberSlice = createSlice({
         [deleteMember.rejected]: state => {
             state.isLoading = false;
             console.log("Nhay vo rejeject r");
+        },
+
+        [updateMember.pending]: state => {
+            state.isLoading = true
+        },
+        [updateMember.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.members.find((m, index) => {
+                if (m.memberID === action.payload.memberID) {
+                    state.members[index] = action.payload
+                }
+            })
+        },
+        [updateMember.rejected]: state => {
+            state.isLoading = false;
         },
     }
 

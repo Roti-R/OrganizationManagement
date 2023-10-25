@@ -13,6 +13,7 @@ import { openModal } from "../common/modalSlice"
 import { getOrganization } from "./OrganizationSlice"
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
+import { Link } from "react-router-dom"
 
 
 const TopSideButtons = ({ applySearch }) => {
@@ -20,7 +21,6 @@ const TopSideButtons = ({ applySearch }) => {
 
     const [searchText, setSearchText] = useState("");
     const dispatch = useDispatch();
-    console.log("Day la TopSideButton");
 
     const handleSearchChange = (searchText) => {
         setSearchText(searchText)
@@ -52,25 +52,23 @@ function Transactions() {
     const { orgs, isLoading } = useSelector(state => state.org)
     const provs = orgs.filter(org => org.type === 'tinh');
     const [filteredProvs, setFilteredProvs] = useState([]);
-    console.log("Day la transaction");
-    console.log("provs ngoài effect : " + provs);
 
 
-    useEffect(  () => {
+    useEffect(() => {
         dispatch(getOrganization())
-        
-    }, [])
+
+    }, [dispatch])
 
     useEffect(() => {
         setFilteredProvs(provs)
-    },[orgs])
+    }, [orgs])
 
     isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')
 
     const deleteCurrentOrganization = (index) => {
         dispatch(openModal({
             title: "Xác nhận", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
-            extraObject: { message: `Xóa hội này cũng sẽ xóa các hội trực thuộc nó, bạn có muốn xóa không ?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.ORGANIZATION_DELETE, index: index }
+            extraObject: { message: `Xóa hội này sẽ xóa các hội trực thuộc nó, xóa các thành viên khỏi hội, bạn có muốn xóa không ?`, type: CONFIRMATION_MODAL_CLOSE_TYPES.ORGANIZATION_DELETE, index: index }
         }))
     }
 
@@ -81,7 +79,6 @@ function Transactions() {
 
     return (
         <>
-
             <TitleCard title="Danh sách đơn vị tỉnh" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
 
                 {/* Team Member list in table format loaded constant */}
@@ -98,21 +95,26 @@ function Transactions() {
                             {
                                 filteredProvs.map((l, k) => {
                                     return (
-                                        <tr key={l.orgID}>
-                                            <td className="text-center">
-                                                {l.name}
+                                        <tr key={l.orgID} className="" >
+                                            <td className="text-center hover:bg-gray-700 cursor-point">
+                                                <Link to={`id=${l.orgID}`} className="text-center">
+
+                                                    {l.name}
+                                                </Link>
+
                                             </td>
 
-                                            <td className="text-center">{l.type}</td>
-                                            <td><button className="btn btn-square btn-ghost" onClick={() => deleteCurrentOrganization(l.orgID)}><TrashIcon className="w-5" /></button></td>
+                                            <td className="text-center ">{l.type}</td>
+                                            <td className=""><button className="btn btn-square btn-ghost " onClick={() => deleteCurrentOrganization(l.orgID)}><TrashIcon className="w-5" /></button></td>
                                         </tr>
+
                                     )
                                 })
                             }
                         </tbody>
                     </table>
                 </div>
-            </TitleCard>
+            </TitleCard >
         </>
     )
 }

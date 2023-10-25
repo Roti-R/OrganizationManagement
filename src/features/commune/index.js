@@ -11,7 +11,7 @@ import { getOrganization } from '../transactions/OrganizationSlice';
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon';
 import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../utils/globalConstantUtil';
 import { setSelectedDistrict } from './SelectedDistrictSlice';
-
+import { Link } from 'react-router-dom';
 const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
     const dispatch = useDispatch();
     const { orgs, isLoading } = useSelector(state => state.org)
@@ -27,7 +27,7 @@ const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
 
 
     const AddNewDistrictModal = () => {
-        dispatch(openModal({ title: 'Thêm đơn vị xã', bodyType: MODAL_BODY_TYPES.COMMUNE_ADD_NEW}))
+        dispatch(openModal({ title: 'Thêm đơn vị xã', bodyType: MODAL_BODY_TYPES.COMMUNE_ADD_NEW }))
     }
 
     const handleSelectProvince = (value) => {
@@ -38,9 +38,9 @@ const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
         dispatch(setSelectedDistrict(value))
     }
 
-    
 
-    
+
+
     return (
         <div className="inline-block float-right ">
             <SelectBox
@@ -71,8 +71,8 @@ const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
 const Commune = () => {
 
     const dispatch = useDispatch()
-    const {selectedDistrict} = useSelector(state => state.selectedDistrict)
-    const {orgs, isLoading} = useSelector(state => state.org)
+    const { selectedDistrict } = useSelector(state => state.selectedDistrict)
+    const { orgs, isLoading } = useSelector(state => state.org)
     const communes = orgs.filter(org => org.parentID === selectedDistrict)
 
     useEffect(() => {
@@ -93,7 +93,7 @@ const Commune = () => {
     }
     return (
         <>
-        <TitleCard title="Danh sách đơn vị xã" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
+            <TitleCard title="Danh sách đơn vị xã" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} />}>
                 <div className="overflow-x-auto w-full">
                     <table className="table w-full">
                         <thead>
@@ -104,12 +104,15 @@ const Commune = () => {
                             </tr>
                         </thead>
                         <tbody>
-                        {
+                            {
                                 communes.map((l, k) => {
                                     return (
                                         <tr key={l.orgID}>
-                                            <td className="text-center">
-                                                {l.name}
+                                            <td className="text-center hover:bg-gray-700 cursor-point">
+                                                <Link to={`id=${l.orgID}`} className="text-center">
+
+                                                    {l.name}
+                                                </Link>
                                             </td>
 
                                             <td className="text-center">{l.type}</td>

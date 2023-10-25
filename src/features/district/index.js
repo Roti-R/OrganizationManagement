@@ -11,7 +11,7 @@ import { getOrganization } from '../transactions/OrganizationSlice';
 import { setSelectedProvince } from './SelectedProvSlice';
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon';
 import { CONFIRMATION_MODAL_CLOSE_TYPES } from '../../utils/globalConstantUtil';
-
+import { Link } from 'react-router-dom';
 
 const TopSideButtons = ({ removeFilter, applyFilter, applySearch }) => {
     const dispatch = useDispatch();
@@ -94,8 +94,11 @@ const District = () => {
                                 districtOrg.map((l, k) => {
                                     return (
                                         <tr key={l.orgID}>
-                                            <td className="text-center">
-                                                {l.name}
+                                            <td className="text-center hover:bg-gray-700 cursor-point">
+                                                <Link to={`id=${l.orgID}`} className="text-center">
+
+                                                    {l.name}
+                                                </Link>
                                             </td>
 
                                             <td className="text-center">{l.type}</td>

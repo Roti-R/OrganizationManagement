@@ -8,6 +8,7 @@ module.exports = Object.freeze({
         DISTRICT_ADD_NEW: "DISTRICT_ADD_NEW",
         COMMUNE_ADD_NEW: "COMMUNE_ADD_NEW",
         MEMBER_ADD_NEW: "MEMBER_ADD_NEW",
+        MEMBER_ADD_ORGANIZATION: "MEMBER_ADD_ORGANIZATION",
         DEFAULT: "",
 
     },
@@ -20,6 +21,12 @@ module.exports = Object.freeze({
     CONFIRMATION_MODAL_CLOSE_TYPES: {
         LEAD_DELETE: "LEAD_DELETE",
         ORGANIZATION_DELETE: "ORGANIZATION_DELETE",
-        MEMBER_DELETE: "MEMBER_DELETE"
+        MEMBER_DELETE: "MEMBER_DELETE",
+        MEMBER_OUT_ORGANIZATION: "MEMBER_OUT_ORGANIZATION"
     },
+    ORGANIZATION_TYPE: {
+        PROVINCE: "province",
+        DISTRICT: "district",
+        COMMUNE: "commune"
+    }
 });

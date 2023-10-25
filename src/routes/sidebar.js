@@ -36,7 +36,7 @@ const routes = [
     name: 'Leads', // name that appear in Sidebar
   },
   {
-    path: '/app/transactions', // url
+    path: '/app/province', // url
     icon: <CurrencyDollarIcon className={iconClasses} />, // icon component
     name: 'Đơn vị tỉnh', // name that appear in Sidebar
   },
@@ -52,10 +52,10 @@ const routes = [
   },
   {
     path: '/app/members',
-    icon: <UsersIcon className={iconClasses}/>,
+    icon: <UsersIcon className={iconClasses} />,
     name: 'Thành viên hội'
   }
-  ,{
+  , {
     path: '/app/charts', // url
     icon: <ChartBarIcon className={iconClasses} />, // icon component
     name: 'Analytics', // name that appear in Sidebar

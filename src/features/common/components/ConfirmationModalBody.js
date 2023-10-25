@@ -4,13 +4,13 @@ import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_CLOSE_TYPES } from '../../../util
 import { deleteLead } from '../../leads/leadSlice'
 import { showNotification } from '../headerSlice'
 import { deleteOrganization } from '../../transactions/OrganizationSlice'
-import { deleteMember } from '../../members/memberSlice'
+import { deleteMember, updateMember } from '../../members/memberSlice'
 
 function ConfirmationModalBody({ extraObject, closeModal }) {
 
     const dispatch = useDispatch()
 
-    const { message, type, _id, index } = extraObject
+    const { message, type, _id, index, updateObject } = extraObject
 
 
     const proceedWithYes = async () => {
@@ -63,6 +63,28 @@ function ConfirmationModalBody({ extraObject, closeModal }) {
                     })
                 );
             }
+        }
+        else if (type === CONFIRMATION_MODAL_CLOSE_TYPES.MEMBER_OUT_ORGANIZATION) {
+            dispatch(updateMember({ memberID: index, member: updateObject })).unwrap()
+                .then((res) => {
+                    dispatch(
+                        showNotification({
+                            message: 'Xóa thành viên khỏi hội thành công',
+                            status: 1,
+                        })
+                    );
+                })
+                .catch(err => {
+                    console.log("index: " + index);
+                    console.log(updateObject);
+                    console.log(err);
+                    dispatch(
+                        showNotification({
+                            message: 'Xóa thành viên không thành công',
+                            status: 0,
+                        })
+                    );
+                })
         }
         closeModal()
     }

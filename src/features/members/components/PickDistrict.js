@@ -34,7 +34,7 @@ export const PickDistrict = ({ updateType, updateFormValue }) => {
                 placeholder="Chọn huyện"
                 containerStyle="w-full mt-4"
                 labelStyle=""
-                updateFormValue={updateType}
+                updateFormValue={updateValue}
                 nameKey='orgID'
             />
         </>

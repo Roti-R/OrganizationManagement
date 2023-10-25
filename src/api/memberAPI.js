@@ -12,6 +12,10 @@ const memberAPI = {
     deleteMember(memberID) {
         const url = '/Member/' + memberID;
         return axiosClient.delete(url, memberID);
+    },
+    updateMember(data) {
+        const url = '/Member/' + data.memberID;
+        return axiosClient.put(url, data.member)
     }
 }
 
