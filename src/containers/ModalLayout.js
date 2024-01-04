@@ -1,15 +1,16 @@
-import { useEffect } from 'react'
-import { MODAL_BODY_TYPES } from '../utils/globalConstantUtil'
-import { useSelector, useDispatch } from 'react-redux'
-import { closeModal } from '../features/common/modalSlice'
-import AddLeadModalBody from '../features/leads/components/AddLeadModalBody'
-import ConfirmationModalBody from '../features/common/components/ConfirmationModalBody'
-import AddProvinceModalBody from '../features/transactions/components/AddProvinceModalBody'
-import AddDistrictModalBody from '../features/district/components/AddDistrictModalBody'
+import { useDispatch, useSelector } from 'react-redux'
+
 import AddCommuneModalBody from '../features/commune/components/AddCommuneModalBody'
+import AddDistrictModalBody from '../features/district/components/AddDistrictModalBody'
+import AddLeadModalBody from '../features/leads/components/AddLeadModalBody'
+import AddManagerModalBody from '../features/detailOrganization/components/AddManagerModalBody'
 import AddMemberModalBody from '../features/members/components/addMemberModalBody'
 import AddMemberToOrg from '../features/detailOrganization/components/AddMemberToOrg'
-
+import AddProvinceModalBody from '../features/transactions/components/AddProvinceModalBody'
+import ConfirmationModalBody from '../features/common/components/ConfirmationModalBody'
+import { MODAL_BODY_TYPES } from '../utils/globalConstantUtil'
+import { closeModal } from '../features/common/modalSlice'
+import { useEffect } from 'react'
 
 function ModalLayout() {
 
@@ -45,6 +46,7 @@ function ModalLayout() {
                             [MODAL_BODY_TYPES.COMMUNE_ADD_NEW]: <AddCommuneModalBody extraObject={extraObject} closeModal={close} />,
                             [MODAL_BODY_TYPES.MEMBER_ADD_NEW]: <AddMemberModalBody extraObject={extraObject} closeModal={close} />,
                             [MODAL_BODY_TYPES.MEMBER_ADD_ORGANIZATION]: <AddMemberToOrg extraObject={extraObject} closeModal={close} />,
+                            [MODAL_BODY_TYPES.MANAGER_ADD_NEW]: <AddManagerModalBody extraObject={extraObject} closeModal={close} />,
                             [MODAL_BODY_TYPES.DEFAULT]: <div></div>
                         }[bodyType]
                     }

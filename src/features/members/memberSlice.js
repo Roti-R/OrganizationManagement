@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import memberAPI from "../../api/memberAPI";
 import { showNotification } from "../common/headerSlice";
 
@@ -91,7 +92,7 @@ export const memberSlice = createSlice({
         },
         [deleteMember.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.members = state.members.filter(org => org.memberID !== action.payload)
+            state.members = state.members.filter(member => member.memberID !== action.payload)
 
         },
         [deleteMember.rejected]: state => {

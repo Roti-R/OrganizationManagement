@@ -1,10 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_CLOSE_TYPES } from '../../../utils/globalConstantUtil'
-import { deleteLead } from '../../leads/leadSlice'
-import { showNotification } from '../headerSlice'
-import { deleteOrganization } from '../../transactions/OrganizationSlice'
 import { deleteMember, updateMember } from '../../members/memberSlice'
+import { useDispatch, useSelector } from 'react-redux'
+
+import axios from 'axios'
+import { deleteLead } from '../../leads/leadSlice'
+import { deleteManager } from '../../detailOrganization/managerSlice'
+import { deleteOrganization } from '../../transactions/OrganizationSlice'
+import { showNotification } from '../headerSlice'
 
 function ConfirmationModalBody({ extraObject, closeModal }) {
 
@@ -46,6 +48,7 @@ function ConfirmationModalBody({ extraObject, closeModal }) {
         }
         else if (type === CONFIRMATION_MODAL_CLOSE_TYPES.MEMBER_DELETE) {
             try {
+
                 await dispatch(deleteMember(index));
                 dispatch(
                     showNotification({
@@ -65,6 +68,17 @@ function ConfirmationModalBody({ extraObject, closeModal }) {
             }
         }
         else if (type === CONFIRMATION_MODAL_CLOSE_TYPES.MEMBER_OUT_ORGANIZATION) {
+
+            dispatch(deleteManager(index)).unwrap()
+                .catch(err => {
+                    dispatch(
+                        showNotification({
+                            message: 'Có lỗi khi xóa quyền quản lý của thành viên này',
+                            status: 0,
+                        })
+                    );
+                    return;
+                })
             dispatch(updateMember({ memberID: index, member: updateObject })).unwrap()
                 .then((res) => {
                     dispatch(
@@ -75,12 +89,30 @@ function ConfirmationModalBody({ extraObject, closeModal }) {
                     );
                 })
                 .catch(err => {
-                    console.log("index: " + index);
-                    console.log(updateObject);
                     console.log(err);
                     dispatch(
                         showNotification({
                             message: 'Xóa thành viên không thành công',
+                            status: 0,
+                        })
+                    );
+                })
+        }
+        else if (type === CONFIRMATION_MODAL_CLOSE_TYPES.MANAGER_DELETE) {
+            dispatch(deleteManager(index)).unwrap()
+                .then(() => {
+                    dispatch(
+                        showNotification({
+                            message: 'Xóa quyền quản lý thành công',
+                            status: 1,
+                        })
+                    );
+                })
+                .catch(err => {
+                    console.log(err);
+                    dispatch(
+                        showNotification({
+                            message: 'Xóa quyền quản lý không thành công',
                             status: 0,
                         })
                     );

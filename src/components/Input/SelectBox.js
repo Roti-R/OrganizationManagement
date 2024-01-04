@@ -1,15 +1,14 @@
+import React, { useEffect, useState } from 'react'
 
+import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon'
 import axios from 'axios'
 import capitalize from 'capitalize-the-first-letter'
-import React, { useState, useEffect } from 'react'
-import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon'
-
 
 function SelectBox(props) {
 
     const { labelTitle, labelDescription, defaultValue, containerStyle, placeholder, labelStyle, options, updateFormValue, nameKey } = props
 
-    const [value, setValue] = useState(defaultValue || (options.length > 0 ? options[0][nameKey] : '2222'))
+    const [value, setValue] = useState(defaultValue || (options.length > 0 ? options[0][nameKey] : 'PLACEHOLDER'))
 
     useEffect(() => {
         updateFormValue(value)

@@ -1,12 +1,13 @@
+import ProvOrganizationSlice from '../features/transactions/OrganizationSlice'
+import SelectedDistrictSlice from '../features/commune/SelectedDistrictSlice'
+import SelectedProvSlice from '../features/district/SelectedProvSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import headerSlice from '../features/common/headerSlice'
+import leadsSlice from '../features/leads/leadSlice'
+import managerSlice from '../features/detailOrganization/managerSlice'
+import memberSlice from '../features/members/memberSlice'
 import modalSlice from '../features/common/modalSlice'
 import rightDrawerSlice from '../features/common/rightDrawerSlice'
-import leadsSlice from '../features/leads/leadSlice'
-import ProvOrganizationSlice from '../features/transactions/OrganizationSlice'
-import SelectedProvSlice from '../features/district/SelectedProvSlice'
-import SelectedDistrictSlice from '../features/commune/SelectedDistrictSlice'
-import memberSlice from '../features/members/memberSlice'
 
 const combinedReducer = {
   header: headerSlice,
@@ -16,7 +17,8 @@ const combinedReducer = {
   org: ProvOrganizationSlice,
   member: memberSlice,
   selectedProv: SelectedProvSlice,
-  selectedDistrict: SelectedDistrictSlice
+  selectedDistrict: SelectedDistrictSlice,
+  manager: managerSlice
 }
 
 export default configureStore({

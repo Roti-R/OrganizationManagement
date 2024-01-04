@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import LandingIntro from './LandingIntro'
+import { useRef, useState } from 'react'
+
 import ErrorText from '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
-
+import LandingIntro from './LandingIntro'
+import { Link } from 'react-router-dom'
 import userApi from '../../api/userApi'
 
 function Login() {
@@ -27,8 +27,8 @@ function Login() {
         var myData;
         e.preventDefault()
         setErrorMessage("")
-        if (loginObj.emailId.trim() === "") return setErrorMessage("Email Id is required! (use any value)")
-        if (loginObj.password.trim() === "") return setErrorMessage("Password is required! (use any value)")
+        if (loginObj.emailId.trim() === "") return setErrorMessage("Hãy nhập tài khoản")
+        if (loginObj.password.trim() === "") return setErrorMessage("Hãy nhập mật khẩu")
         checkCredential().then(res => {
             if (res.data.success === false) {
                 return setErrorMessage("Tài khoản và mật khẩu không hợp lệ")
@@ -37,6 +37,7 @@ function Login() {
                 setLoading(true)
                 // Call API to check user credentials and save token in localstorage
                 localStorage.setItem("token", res.data.data)
+                console.log(res.data.data);
                 setLoading(false)
                 window.location.href = '/app/welcome'
             }

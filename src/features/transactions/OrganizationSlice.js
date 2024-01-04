@@ -37,6 +37,15 @@ export const deleteOrganization = createAsyncThunk('/org/delete', async (key, th
     }
 })
 
+export const getManagerList = createAsyncThunk('/org/contents', async (value, thunkAPI) => {
+    try {
+        const response = await organizationApi.getManagerList(value);
+        return response.data;
+    } catch (error) {
+        thunkAPI.rejectWithValue(error);
+    }
+})
+
 export const OrganizationSlice = createSlice({
     name: 'org',
     initialState: {

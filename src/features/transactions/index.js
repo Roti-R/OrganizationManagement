@@ -1,20 +1,21 @@
-import moment from "moment"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { showNotification } from "../common/headerSlice"
-import TitleCard from "../../components/Cards/TitleCard"
-import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
-import FunnelIcon from '@heroicons/react/24/outline/FunnelIcon'
-import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
-import SearchBar from "../../components/Input/SearchBar"
-import organizationApi from "../../api/OrganizationAPI"
-import { data } from "autoprefixer"
-import { openModal } from "../common/modalSlice"
-import { getOrganization } from "./OrganizationSlice"
-import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
-import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect, useState } from "react"
 
+import FunnelIcon from '@heroicons/react/24/outline/FunnelIcon'
+import { Link } from "react-router-dom"
+import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
+import SearchBar from "../../components/Input/SearchBar"
+import TitleCard from "../../components/Cards/TitleCard"
+import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
+import { data } from "autoprefixer"
+import { getMember } from '../members/memberSlice'
+import { getOrganization } from "./OrganizationSlice"
+import moment from "moment"
+import { openModal } from "../common/modalSlice"
+import organizationApi from "../../api/OrganizationAPI"
+import { showNotification } from "../common/headerSlice"
 
 const TopSideButtons = ({ applySearch }) => {
 
@@ -50,14 +51,14 @@ const TopSideButtons = ({ applySearch }) => {
 function Transactions() {
     const dispatch = useDispatch();
     const { orgs, isLoading } = useSelector(state => state.org)
+    const { members } = useSelector(state => state.member)
     const provs = orgs.filter(org => org.type === 'tinh');
     const [filteredProvs, setFilteredProvs] = useState([]);
 
-
     useEffect(() => {
         dispatch(getOrganization())
-
-    }, [dispatch])
+        dispatch(getMember())
+    }, [])
 
     useEffect(() => {
         setFilteredProvs(provs)
@@ -65,6 +66,13 @@ function Transactions() {
 
     isLoading ? document.body.classList.add('loading-indicator') : document.body.classList.remove('loading-indicator')
 
+    const countChild = (orgId) => {
+        return orgs.filter(o => o.parentID === orgId).length
+    }
+
+    const countMember = (orgId) => {
+        return members.filter(m => m.currentOrganizationID === orgId).length
+    }
     const deleteCurrentOrganization = (index) => {
         dispatch(openModal({
             title: "Xác nhận", bodyType: MODAL_BODY_TYPES.CONFIRMATION,
@@ -87,7 +95,8 @@ function Transactions() {
                         <thead>
                             <tr className="text-center">
                                 <th>Tên tỉnh</th>
-                                <th>Người quản lý</th>
+                                <th>Số hội con</th>
+                                <th>Số thành viên</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -103,8 +112,8 @@ function Transactions() {
                                                 </Link>
 
                                             </td>
-
-                                            <td className="text-center ">{l.type}</td>
+                                            <td className='text-center'>{countChild(l.orgID)}</td>
+                                            <td className='text-center'>{countMember(l.orgID)}</td>
                                             <td className=""><button className="btn btn-square btn-ghost " onClick={() => deleteCurrentOrganization(l.orgID)}><TrashIcon className="w-5" /></button></td>
                                         </tr>
 
