@@ -19,6 +19,8 @@ const DocFeatures = lazy(() => import('../pages/DocFeatures'))
 const DocComponents = lazy(() => import('../pages/DocComponents'))
 const District = lazy(() => import('../pages/protected/District'))
 const Commune = lazy(() => import('../pages/protected/Commune'))
+const Members = lazy(() => import('../pages/protected/Member'))
+const DetailOrganization = lazy(() => import('../pages/protected/DetailOrganization'))
 
 const routes = [
   {
@@ -42,8 +44,12 @@ const routes = [
     component: Calendar,
   },
   {
-    path: '/transactions',
+    path: '/province',
     component: Transactions,
+  },
+  {
+    path: '/:type/id=:id',
+    component: DetailOrganization
   },
   {
     path: '/district',
@@ -89,6 +95,10 @@ const routes = [
     path: '/blank',
     component: Blank,
   },
+  {
+    path: '/members',
+    component: Members
+  }
 ]
 
 export default routes
