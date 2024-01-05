@@ -23,6 +23,8 @@ const AddMemberModalBody = ({ closeModal }) => {
     const [errorMessage, setErrorMessage] = useState("")
     const [memberObj, setmemberObj] = useState(INITIAL_MEMBER_OBJ)
     const [isAddToOrg, setIsAddToOrg] = useState(false)
+    const [image, setImage] = useState(null);
+
     const [activeButton, setActiveButton] = useState(0)
     console.log(memberObj);
 
@@ -58,9 +60,28 @@ const AddMemberModalBody = ({ closeModal }) => {
     const handleOrganizationType = (type) => {
         setActiveButton(type);
     }
-
+    const saveFilePath = (fileName) => {
+        const fileContent = `Image Path: ${fileName}`;
+        const blob = new Blob([fileContent], { type: 'text/plain' });
+        const fileUrl = URL.createObjectURL(blob);
+      
+        const link = document.createElement('a');
+        link.href = fileUrl;
+      };
+      
+      const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          let img = e.target.files[0];
+          const imageUrl = URL.createObjectURL(img);
+          setImage(imageUrl);
+        }
+      };
+      
     return (
         <>
+            <input type="file" onChange={handleImageChange} />
+            {image && <img src={image} alt="Avatar" />}
+
             <InputText type="text" defaultValue={memberObj.name} updateType="name" containerStyle="mt-4" value labelTitle="Tên thành viên" updateFormValue={updateFormValue} />
             <InputText type="text" defaultValue={memberObj.address} updateType="address" containerStyle="mt-4" value labelTitle="Địa chỉ" updateFormValue={updateFormValue} />
             <InputText type="text" defaultValue={memberObj.phoneNumber} updateType="phoneNumber" containerStyle="mt-4" value labelTitle="SĐT" updateFormValue={updateFormValue} />

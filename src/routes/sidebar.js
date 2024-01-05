@@ -38,7 +38,7 @@ const routes = [
   // },
   {
     path: '/app/province', // url
-    icon: <CurrencyDollarIcon className={iconClasses} />, // icon component
+    icon: <MapIcon className={iconClasses} />, // icon component
     name: 'Đơn vị tỉnh', // name that appear in Sidebar
   },
   {
